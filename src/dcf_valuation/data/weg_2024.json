@@ -1,0 +1,38 @@
+{
+  "company": "WEG S.A.",
+  "ticker": "WEGE3",
+  "valuation_date": "2024-12-31",
+  "reviewed_on": "2026-11-06",
+  "units": "BRL millions, except shares in millions and per-share values in BRL",
+  "historical": [
+    {"year": 2022, "revenue": 29904.722, "ebitda": 5617.144, "da": 565.557},
+    {"year": 2023, "revenue": 32503.601, "ebitda": 7090.167, "da": 628.042},
+    {"year": 2024, "revenue": 37986.941, "ebitda": 8503.013, "da": 812.485}
+  ],
+  "sources": [
+    {
+      "id": "DFP24",
+      "title": "WEG DFP 2024 — Relatório da administração",
+      "url": "https://api.mziq.com/mzfilemanager/v2/d/50c1bd3e-8ac6-42d9-884f-b9d69f690602/f2b70b43-c767-ec6f-c3a5-a3da6aecf962?origin=1",
+      "location": "p. 5 tabela 1; p. 6 tabela 2; p. 7 mercado de capitais",
+      "scope": "2022–24 receita, EBITDA, D&A; 2024 dívida, caixa e aplicações, ações emitidas",
+      "notes": "R$ mil dividido por 1.000. Ações divididas por 1.000.000. Caixa exclui derivativos líquidos de R$190,678 milhões."
+    },
+    {
+      "id": "RI24",
+      "title": "WEG divulga Relatório Anual Integrado — 29/04/2025",
+      "url": "https://www.weg.net/institutional/SB/pt/news/corporativo/weg-divulga-relatorio-anual-integrado-reforcando-compromissos-com-a-sustentabilidade",
+      "location": "Notícia institucional",
+      "scope": "Contexto industrial e exposição internacional",
+      "notes": "Contexto qualitativo; não alimenta projeções."
+    },
+    {
+      "id": "ILLUSTRATIVE",
+      "title": "Premissas do autor, sem consenso ou guidance",
+      "url": "",
+      "location": "Assumptions e docs/methodology.md",
+      "scope": "2025–29, WACC, g, NWC inicial e outros direitos",
+      "notes": "Modelo retrospectivo em 31/12/2024, preparado em 06/11/2026. Projeções não incorporam resultados publicados de 2025–26. Outros direitos de R$500 milhões são hipótese, não valor justo observado de minoritários."
+    }
+  ]
+}
