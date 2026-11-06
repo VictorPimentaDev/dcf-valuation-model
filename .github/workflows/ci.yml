@@ -23,4 +23,10 @@ jobs:
       - run: ruff check .
       - run: pytest -q
       - run: python -m build
-      - run: dcf --output outputs/weg-dcf.xlsx
+      - run: dcf --output outputs/weg-dcf.xlsx --charts-dir outputs/charts --samples 1000
+      - name: Execute reproducible research notebook
+        run: python scripts/reproduce.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: research-${{ matrix.python-version }}
+          path: outputs/

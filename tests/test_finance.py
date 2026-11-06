@@ -64,7 +64,7 @@ def test_default_model_against_independent_decimal_calculation():
     ev = sum(flow / (1 + rate) ** year for year, flow in enumerate(flows, 1))
     ev += flows[-1] * d("1.04") / (rate - d("0.04")) / (1 + rate) ** 5
     price = (ev + d("8013.210") - d("3595.237") - 500) / d("4197.317998")
-    result = calculate(Assumptions())
+    result = calculate(Assumptions(), load_data("weg_2024.json"))
     assert result["enterprise_value"] == pytest.approx(float(ev))
     assert result["price_per_share"] == pytest.approx(float(price))
     assert result["projections"][0]["fcff"] == pytest.approx(float(flows[0]))
@@ -109,7 +109,7 @@ def test_empty_flows_and_invalid_terminal_spread():
 
 
 def test_source_fixture_units_and_provenance():
-    data = load_data()
+    data = load_data("weg_2024.json")
     assert data["historical"][-1]["revenue"] == 37986.941
     assert data["historical"][-1]["ebitda"] - data["historical"][-1]["da"] == pytest.approx(
         7690.528

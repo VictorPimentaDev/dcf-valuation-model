@@ -7,6 +7,8 @@ from openpyxl import load_workbook
 from openpyxl.formula import Tokenizer
 from openpyxl.utils.cell import range_boundaries
 
+from dcf_valuation.model import Assumptions, load_data
+from dcf_valuation.monte_carlo import SimulationConfig, simulate
 from dcf_valuation.workbook import build_workbook
 
 
@@ -53,7 +55,10 @@ def value(book, sheet, address):
 
 @pytest.fixture
 def workbook(tmp_path):
-    return load_workbook(build_workbook(tmp_path / "weg.xlsx"))
+    data = load_data("weg_2024.json")
+    a = Assumptions()
+    simulation = simulate(a, SimulationConfig(samples=8), data)
+    return load_workbook(build_workbook(tmp_path / "weg.xlsx", a, data=data, simulation=simulation))
 
 
 def test_workbook_structure_and_base_math(workbook):
@@ -64,6 +69,7 @@ def test_workbook_structure_and_base_math(workbook):
         "DCF",
         "WACC",
         "Sensitivity",
+        "MonteCarlo",
         "Sources",
     ]
     assert value(workbook, "WACC", "D17") == pytest.approx(0.14652)
@@ -75,7 +81,7 @@ def test_workbook_structure_and_base_math(workbook):
     assert workbook.calculation.fullCalcOnLoad
     assert workbook["Assumptions"]["D7"].font.color.rgb == "000000FF"
     assert workbook["Sources"]["E7"].value.startswith("https://")
-    assert all(sheet.freeze_panes == "D7" for sheet in workbook)
+    assert all(sheet.freeze_panes == "D7" for sheet in workbook if sheet.title != "MonteCarlo")
     assert all(not sheet.sheet_view.showGridLines for sheet in workbook)
     assert len(workbook["Assumptions"].data_validations.dataValidation) == 8
 
@@ -102,12 +108,24 @@ def test_excel_check_catches_pasted_invalid_inputs(workbook, cell, change):
 def test_cli_builds_real_file_and_rejects_bad_json(tmp_path):
     path = tmp_path / "cli.xlsx"
     success = subprocess.run(
-        [sys.executable, "-m", "dcf_valuation", "--output", str(path)],
+        [
+            sys.executable,
+            "-m",
+            "dcf_valuation",
+            "--output",
+            str(path),
+            "--samples",
+            "16",
+            "--charts-dir",
+            str(tmp_path / "charts"),
+        ],
         capture_output=True,
         text=True,
         check=True,
     )
-    assert "11.73" in success.stdout
+    assert "Monte Carlo P05/P50/P95" in success.stdout
+    assert len(list((tmp_path / "charts").glob("*.png"))) == 4
+    assert path.with_suffix(".json").exists()
     assert load_workbook(path)["DCF"]["D24"].value == "=D22/D23"
     invalid = tmp_path / "invalid.json"
     invalid.write_text('{"shares": 0}')
@@ -118,3 +136,24 @@ def test_cli_builds_real_file_and_rejects_bad_json(tmp_path):
     )
     assert failure.returncode == 2
     assert "shares must be positive" in failure.stderr
+
+
+def test_monte_carlo_snapshot_marks_changed_inputs_stale(workbook):
+    assert value(workbook, "MonteCarlo", "D22") == "CURRENT"
+    workbook["Assumptions"]["D7"] = 0.25
+    assert value(workbook, "MonteCarlo", "D22") == "STALE — rerun Python"
+
+
+def test_current_fixture_excel_matches_python(tmp_path):
+    from dcf_valuation.model import calculate, load_assumptions
+
+    data = load_data()
+    assumptions = load_assumptions(data)
+    simulation = simulate(assumptions, SimulationConfig(samples=2), data)
+    workbook = load_workbook(
+        build_workbook(tmp_path / "current.xlsx", assumptions, data=data, simulation=simulation)
+    )
+    assert value(workbook, "DCF", "D24") == pytest.approx(
+        calculate(assumptions, data)["price_per_share"]
+    )
+    assert workbook["Assumptions"]["D6"].value == "2027-11-06"
