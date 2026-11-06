@@ -1,1 +1,5 @@
 recursive-include docs *.md *.html
+recursive-include notebooks *.ipynb
+recursive-include charts *.png
+recursive-include examples *.xlsx *.json
+recursive-include scripts *.py

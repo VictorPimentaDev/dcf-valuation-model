@@ -1,7 +1,7 @@
 # Equipamentos elétricos no Brasil: da expansão da rede ao caixa
 
 Recorte: motores, automação e equipamentos de geração, transmissão e distribuição.
-Estudo qualitativo preparado em 06/11/2026, com documentos de referência de 2024–25.
+Estudo qualitativo preparado em 06/11/2026, com documentos setoriais de 2024–25 e demonstrações da WEG até setembro de 2026.
 As relações econômicas abaixo são análise do autor, não projeções oficiais de receita.
 
 ## Onde a demanda começa
@@ -18,6 +18,13 @@ O [PDE 2034 da EPE](https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/pu
 [aprovado pelo MME em abril de 2025](https://www.gov.br/mme/pt-br/assuntos/noticias/2023-2026/mme-aprova-plano-decenal-de-expansao-de-energia-2034).
 Planejamento setorial sinaliza necessidades de infraestrutura; não é uma carteira
 de pedidos de um fabricante e não garante sua participação em contratos.
+
+O MME associa ao PDE 2034 cerca de R$3,2 trilhões de investimentos e crescimento
+de aproximadamente 25% da oferta interna de energia em dez anos. Esse agregado
+inclui petróleo, gás e outras fontes: **não é o mercado endereçável de equipamentos
+elétricos**, nem pode ser multiplicado pela participação da WEG para projetar vendas.
+A leitura útil é localizar o gargalo de cada projeto: geração, conexão, transmissão,
+distribuição ou consumo industrial. Fonte: comunicado do MME citado acima.
 
 ## Cadeia de valor e disputa comercial
 
@@ -54,6 +61,35 @@ cronograma de entrada em operação e utilização de capacidade.
 | A expansão cabe na capacidade? | Investimentos e utilização | Capex, D&A e crescimento |
 | Quanto caixa fica preso no ciclo? | Estoques, recebíveis e fornecedores | NWC e sua variação |
 | O retorno suporta o crescimento terminal? | Capital empregado e retorno incremental | Reinvestimento e perpetuidade |
+
+## O contraste com os números da companhia
+
+A receita consolidada da WEG cresceu de R$37,99 bilhões em FY2024 para R$40,80
+bilhões em FY2025 (+7,4%). No TTM até setembro de 2026 ficou em R$40,72 bilhões:
+praticamente estável contra FY2025, embora os períodos se sobreponham e não sejam
+uma comparação anual independente. A margem EBIT passou de 20,25% em FY2024
+para 19,60% em FY2025 e 19,36% no TTM. Cálculos sobre
+[DFP/ITR da CVM reconciliados na metodologia](methodology.md#fonte-unidade-e-reconciliação).
+
+Isso impede transformar a tese de eletrificação em crescimento linear de lucro.
+Uma tendência estrutural pode conviver com mix pior, custo maior e adiamento de
+entregas. A WEG consolidada tem exposição internacional; sua receita não mede o
+crescimento do mercado brasileiro de equipamentos. Não inferimos market share
+nem tamanho do setor a partir desses números.
+
+## Quatro mecanismos que podem mudar o retorno
+
+| Mecanismo | Hipótese favorável | Evidência contrária | Como entra no modelo |
+| --- | --- | --- | --- |
+| Eficiência energética | Economia de energia justifica troca de motores | Cliente posterga capex por financiamento caro | Crescimento menor e WACC maior |
+| Redes e conexão | Obras liberam pedidos de equipamentos | Licenciamento e conexão atrasam projetos | Receita adiada, NWC mais alto |
+| Competição e materiais | Escala e serviço sustentam preço | Importações ou insumos comprimem rentabilidade | Margem EBIT menor |
+| Expansão de capacidade | Mais entregas absorvem custos fixos | Capacidade entra antes da demanda | Capex alto com margem e giro piores |
+
+Essa matriz é análise econômica do autor. Ela mostra uma limitação da simulação:
+os choques podem ocorrer juntos, enquanto os quatro drivers sorteados são
+independentes e NWC/capex ficam fixos. Para investigar um estresse setorial,
+substitua o cenário inteiro, em vez de tratar P5 como limite de perda.
 
 ## Cenários e limites
 

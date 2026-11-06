@@ -1,106 +1,123 @@
-# DCF da WEG
+# WEG · B3 equity research
 
-**English summary:** A small Python valuation package that builds an editable,
-formula-driven Excel DCF for WEG. Public historical figures, explicit illustrative
-assumptions, and reproducible tests. This is a retrospective educational model.
+[![CI](https://github.com/VictorPimentaDev/dcf-valuation-model/actions/workflows/ci.yml/badge.svg)](https://github.com/VictorPimentaDev/dcf-valuation-model/actions/workflows/ci.yml)
 
-Modelo de fluxo de caixa descontado da WEG (WEGE3), com base em 31/12/2024.
-O objetivo é deixar a conta aberta: da receita ao valor por ação.
+**English summary:** Reproducible WEG (B3: WEGE3) research: a sourced stock pitch,
+Brazilian industry analysis, formula-driven Excel DCF and seeded Monte Carlo on
+revenue growth, EBIT margin, WACC and terminal growth. Offline fixtures, a Jupyter
+notebook and four matplotlib figures make assumptions and results inspectable.
 
-Escolhi a WEG porque sua operação industrial permite discutir margem,
-reinvestimento e capital de giro sem o tratamento específico que um banco exigiria.
-O histórico 2022–2024 vem da DFP; as projeções 2025–2029 são **ilustrativas**.
-O modelo foi preparado em novembro de 2026, mas não incorpora os resultados de
-2025–2026 nem representa um valuation atualizado. Não é recomendação de investimento.
+Estudo de **WEGE3**, com avaliação em **06/11/2026** e fundamentos TTM até
+**30/09/2026**. A tese conecta equipamentos elétricos, reinvestimento e geração de
+caixa. Os dados históricos vêm da CVM e do RI; projeções e distribuições são
+**hipóteses do autor**, não guidance nem probabilidades calibradas de retorno.
 
-## Rodar
+| Resultado reproduzível · 10.000 cenários · seed 42 | R$/ação |
+| --- | ---: |
+| DCF base | **11,67** |
+| Monte Carlo P5 / mediana / P95 | **8,95 / 11,65 / 15,26** |
+| Cotação observada em 06/11/2026, 17:50:34 −03:00 | **48,23** |
 
-Python 3.11 ou superior:
+A cotação foi coletada às 18:05:36 −03:00 via yfinance/Yahoo Finance, pode ter atraso
+e não é apresentada como fechamento oficial. O spread base é −75,8%; a distância
+mostra o que essas premissas não explicam. Não equivale a uma probabilidade de queda.
+[Preço e metadados](src/dcf_valuation/data/weg_research.json) ·
+[fonte da cotação](https://finance.yahoo.com/quote/WEGE3.SA/).
+
+## Ler e inspecionar
+
+- [Stock pitch](docs/pitch.md), também em [HTML](docs/pitch.html).
+- [Industry deep dive: equipamentos elétricos no Brasil](docs/industry-deep-dive.md).
+- [Metodologia, distribuições e limitações](docs/methodology.md).
+- [Notebook executado](notebooks/weg_research.ipynb).
+- [Excel com oito abas](examples/weg-research.xlsx) e [resumo JSON](examples/weg-research.json).
+
+## Reproduzir
+
+Python 3.11 ou superior, na raiz do repositório:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[dev]'
-dcf --output outputs/weg-dcf.xlsx
-# Alternativa equivalente:
-python -m dcf_valuation --output outputs/weg-dcf.xlsx
+dcf --output outputs/weg-research.xlsx --charts-dir outputs/charts --samples 10000 --seed 42
+python scripts/reproduce.py
+# Ou abra o notebook interativamente:
+jupyter notebook notebooks/weg_research.ipynb
 ```
 
-O comando não usa a rede. Gera o Excel e imprime os resultados do cálculo Python:
+Os dois comandos de reprodução usam **somente fixtures locais**. O script executa
+o notebook e salva `outputs/weg_research.executed.ipynb`; suas células geram Excel,
+CSV das amostras e PNGs em `outputs/notebook/`. A CLI gera Excel, JSON e quatro PNGs.
+Os destinos informados são sobrescritos. Nenhum token ou credencial é necessário.
 
-| Métrica | Padrão ilustrativo |
-| --- | ---: |
-| WACC nominal em reais | 14,652% |
-| Enterprise value | R$ 45.324,89 milhões |
-| Equity value | R$ 49.242,86 milhões |
-| Valor por ação | R$ 11,73 |
-
-O Excel contém fórmulas e solicita recálculo automático ao abrir. **openpyxl não
-calcula nem salva resultados em cache**: leitores que exibem apenas valores
-armazenados podem mostrar células vazias até o recálculo em Excel/LibreOffice.
-O resumo do terminal é calculado em Python e funciona sem aplicativo de planilha.
-
-## Alterar premissas
-
-Edite as células azuis da aba `Assumptions`, ou passe um JSON com os campos que
-quiser substituir. Taxas usam frações: `0.10` significa 10%. Valores financeiros
-estão em R$ milhões; ações, em milhões de ações.
-
-```json
-{
-  "growth": [0.10, 0.09, 0.08, 0.07, 0.06],
-  "ebit_margin": [0.20, 0.20, 0.21, 0.21, 0.21],
-  "terminal_growth": 0.035
-}
-```
-
-Salve como `scenario.json` e execute:
+Para buscar outra cotação, explicitamente:
 
 ```bash
-dcf --assumptions scenario.json --output outputs/scenario.xlsx
+dcf --live --output outputs/weg-live.xlsx --charts-dir outputs/live-charts
 ```
 
-Os drivers anuais exigem cinco valores. Entradas não finitas, ações nulas,
-proporções fora de faixa e crescimento terminal maior ou igual ao WACC são
-rejeitados pela CLI. O Excel tem validação de entrada e uma checagem que também
-detecta vários valores inválidos colados diretamente. A planilha não é protegida:
-fórmulas podem ser editadas, e isso exige revisão de quem as altera. O JSON não é
-atualizado quando você edita o Excel. O destino indicado é sobrescrito ao gerar.
+Falhas da consulta são explícitas; não há troca silenciosa por preço antigo. O modo
+live **não atualiza fundamentos nem a data da avaliação**. Uma cotação muito posterior
+à data-base exige atualizar a pesquisa antes de interpretar a comparação.
 
-## O que há no arquivo
+## Quatro visões dos mesmos cenários
+
+O histograma mostra fair value, o fan chart mostra receita e o tornado altera um
+driver por vez entre P10/P90. A comparação final mostra a cotação e os percentis
+de fair value, não uma previsão da trajetória futura da ação.
+
+![Histograma de fair value da WEG](charts/fair_value_histogram.png)
+![Fan chart da receita em cinco períodos anuais](charts/revenue_fan.png)
+![Sensibilidade tornado dos quatro drivers](charts/sensitivity_tornado.png)
+![Preço observado versus distribuição de fair value](charts/price_vs_distribution.png)
+
+## Premissas e Excel
+
+Crescimento Y1–Y5: 12%, 11%, 10%, 9%, 8%. Margem EBIT 20%; WACC 14,652%; g 4%.
+Monte Carlo: triangulares independentes, moda no caso base, amplitudes de ±5 pp
+crescimento, ±4 pp margem, ±2,5 pp WACC e ±1,5 pp g. Choques de crescimento e margem
+persistem por cinco anos. Capex, D&A, NWC, impostos e ponte patrimonial ficam fixos.
+Os suportes são validados integralmente, incluindo WACC > g.
 
 | Aba | Conteúdo |
 | --- | --- |
-| Assumptions | Drivers anuais, custo de capital e ponte para o acionista |
-| Historical | Receita, EBITDA e D&A de 2022–2024, EBIT e margem calculados |
-| Projections | Receita, EBIT, impostos, NOPAT, D&A, capex, NWC e FCFF |
-| DCF | Desconto ao fim do ano, perpetuidade, EV, equity e valor por ação |
+| Assumptions | Drivers, taxas e ponte patrimonial editáveis |
+| Historical | FY2024, FY2025 e TTM set/2026, claramente diferenciados |
+| Projections | Cinco períodos de 12 meses desde a avaliação; receita até FCFF |
+| DCF | Desconto, terminal, EV, equity e valor por ação |
 | WACC | CAPM e estrutura-alvo de capital |
-| Sensitivity | Valor por ação por WACC × crescimento terminal |
-| Sources | Links, localização, unidades, data de conferência e ressalvas |
+| Sensitivity | Grade WACC × g, redescontando todos os fluxos |
+| Sources | Referências, unidades, datas e ressalvas |
+| MonteCarlo | Seed, parâmetros, cotação, resumo e 10.000 amostras |
 
-A sensibilidade redesconta cada fluxo e o valor terminal. Seu centro reproduz o
-DCF base. Pares inválidos, como WACC ≤ g, ficam em `#N/A` de propósito.
+As sete primeiras abas têm fórmulas. `MonteCarlo` é um **snapshot calculado em Python**:
+editar premissas marca a aba como desatualizada; execute a simulação novamente.
+openpyxl não calcula caches das fórmulas. Abra no Excel/LibreOffice com recálculo
+ativo; leitores de valores armazenados podem mostrar células vazias. A CLI e o
+notebook calculam os resultados sem aplicativo de planilha.
 
-## Dados e leitura
+Para mudar o cenário, salve um JSON e use `dcf --assumptions scenario.json`:
 
-O [fixture versionado](src/dcf_valuation/data/weg_2024.json) guarda números,
-unidades e referências. A fonte financeira é a
-[DFP WEG 2024](https://api.mziq.com/mzfilemanager/v2/d/50c1bd3e-8ac6-42d9-884f-b9d69f690602/f2b70b43-c767-ec6f-c3a5-a3da6aecf962?origin=1):
-relatório da administração, páginas 5–7. Não há scraping nem dependência de
-disponibilidade do RI durante os testes.
+```json
+{"growth": [0.10, 0.09, 0.08, 0.07, 0.06], "terminal_growth": 0.035}
+```
 
-- [Metodologia e limitações](docs/methodology.md)
-- [Pitch da ação](docs/pitch.md), também em [HTML para leitura e impressão](docs/pitch.html)
-- [Deep dive: equipamentos elétricos no Brasil](docs/industry-deep-dive.md)
+Taxas são frações; drivers anuais exigem cinco valores. R$ milhões e milhões de
+ações produzem R$/ação. Entradas inválidas são rejeitadas. Alterações no Excel não
+reescrevem o JSON; a planilha não é protegida contra edição de fórmulas.
 
-Caixa, dívida e ações emitidas têm fonte pública. O ajuste de outros direitos de
-R$ 500 milhões, inclusive minoritários, é uma **hipótese**, não uma avaliação
-observada. Derivativos não entram no caixa. Ações emitidas são uma aproximação
-das ações diluídas em circulação. A metodologia detalha essas escolhas e o
-tratamento da reinversão terminal.
+## Fontes, stack e verificação
 
-## Verificar
+[DFP 2025 CVM](https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/dfp_cia_aberta_2025.zip)
++ [ITR 2026 CVM](https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/itr_cia_aberta_2026.zip)
+alimentam o TTM e a ponte de setembro. O
+[fixture](src/dcf_valuation/data/weg_research.json) registra os hashes dos ZIPs;
+[cvm_weg.csv](src/dcf_valuation/data/cvm_weg.csv) preserva as linhas usadas.
+TTM = FY2025 + 9M2026 − 9M2025. O dataset retrospectivo de 2024 foi preservado.
+
+Python, pandas, numpy, scipy, matplotlib, numpy-financial, yfinance, openpyxl e
+Jupyter. O código compartilha o núcleo de cálculo entre DCF e cada cenário.
 
 ```bash
 pytest -q
@@ -108,16 +125,13 @@ ruff check .
 python -m build
 ```
 
-Os testes confrontam o DCF com uma conta independente em `Decimal`, verificam
-WACC, perpetuidade, sensibilidade, entradas inválidas, CLI e as fórmulas gravadas
-no Excel. Alterar um driver de 2029 deve mudar o valuation sem mudar 2025.
-O avaliador de fórmulas dos testes cobre somente o subconjunto usado aqui; não é
-um substituto para testes de compatibilidade do Excel.
+CI em Python 3.11 e 3.13: lint, testes, pacote, geração de Excel/gráficos e execução
+do notebook offline. Testes cobrem conta independente em Decimal, reconciliação
+CVM, NPV, seeds, suporte dos drivers, fórmulas, cenário editado, PNGs e cotação.
+Excel/LibreOffice nativo não foi executado; o arquivo também foi auditado em motor
+independente de planilhas. Veja as limitações econômicas na metodologia.
 
-Na entrega inicial, as sete abas também foram renderizadas e recalculadas por
-um motor independente. Não foi executado Excel/LibreOffice nativo. O workflow
-executa pytest e ruff em Python 3.11 e 3.13, além de construir o pacote e gerar
-um Excel de exemplo.
-
-Código sob [licença MIT](LICENSE). Documentos de terceiros continuam sujeitos
-às condições dos seus respectivos autores.
+Código sob [MIT](LICENSE). Dados CVM: atribuição à CVM e condições
+[ODbL indicadas no catálogo](https://dados.cvm.gov.br/dataset/cia_aberta-doc-itr).
+Documentos RI e dados de mercado mantêm as condições dos respectivos provedores.
+Este material é educacional e não constitui recomendação de investimento.

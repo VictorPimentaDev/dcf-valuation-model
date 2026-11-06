@@ -127,7 +127,7 @@ def build_workbook(
             a.other_claims,
             "Fixture versionada; premissa/valor divulgado conforme Sources",
         ),
-        ("Ações emitidas (milhões)", a.shares, "Fixture versionada; proxy sem diluição futura"),
+        ("Ações usadas (milhões)", a.shares, "Fixture versionada; proxy sem diluição futura"),
         ("NWC inicial / receita base", a.opening_nwc_ratio, "Hipótese: 20%; não é saldo divulgado"),
     ]
     for row, (label, value, origin) in enumerate(scalars, 17):
@@ -273,7 +273,7 @@ def build_workbook(
         (20, "Dívida financeira", "='Assumptions'!D25"),
         (21, "Outros direitos / minoritários", "='Assumptions'!D26"),
         (22, "Equity value", "=D18+D19-D20-D21"),
-        (23, "Ações emitidas (milhões)", "='Assumptions'!D27"),
+        (23, "Ações usadas (milhões)", "='Assumptions'!D27"),
         (24, "Valor ilustrativo por ação (R$)", "=D22/D23"),
         (25, "VP terminal / enterprise value", "=D17/D18"),
     ]
@@ -339,6 +339,7 @@ def build_workbook(
         s.cell(source_footer + 2, 7, quote["provider"])
 
     s = book["MonteCarlo"]
+    s["C3"] = f"Valuation {data['valuation_date']} • fair value em R$/ação • snapshot Python"
     s["C6"], s["D6"] = "Snapshot Python • não recalcula no Excel", "Valor"
     s["C7"], s["D7"] = "Seed", simulation.config.seed
     s["C8"], s["D8"] = "Número de trajetórias", simulation.config.samples
@@ -346,10 +347,14 @@ def build_workbook(
         s.cell(row, 3, key)
         s.cell(row, 4, item).number_format = PRICE
     s["C17"], s["D17"] = "Cotação de comparação", quote["price"] if quote else "Indisponível"
+    s["D17"].number_format = PRICE
+    s["D7"].number_format = s["D8"].number_format = "0"
     s["C18"], s["D18"] = "Cotação: timestamp", quote["timestamp"] if quote else "Indisponível"
     s["C19"], s["D19"] = "Cotação: fonte", quote["source_url"] if quote else "Indisponível"
-    s["C20"], s["D20"] = "Parâmetros Monte Carlo", json.dumps(simulation.config.metadata())
-    s["C21"], s["D21"] = "Premissas congeladas", json.dumps(asdict(a))
+    s["C20"], s["D20"] = "Parâmetros Monte Carlo", json.dumps(
+        simulation.config.metadata(), ensure_ascii=False
+    )
+    s["C21"], s["D21"] = "Premissas congeladas", json.dumps(asdict(a), ensure_ascii=False)
     checks = []
     for row in range(7, 12):
         for column in range(4, 9):
@@ -376,7 +381,7 @@ def build_workbook(
             s.cell(row, column, item).number_format = PRICE if column == 9 else PERCENT
     s.column_dimensions["I"].width = 22
     s.freeze_panes = "D27"
-    for row in (19, 20, 21, 22):
+    for row in (18, 19, 20, 21, 22):
         s.merge_cells(start_row=row, start_column=4, end_row=row, end_column=9)
     s.row_dimensions[20].height = 85
     s.row_dimensions[21].height = 130

@@ -1,55 +1,161 @@
 <!doctype html>
 <html lang="pt-BR">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WEG — pitch retrospectivo</title>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WEG · B3 equity research</title>
 <style>
 body{font:18px/1.65 system-ui,sans-serif;color:#173b4f;background:#f8f7f3;margin:0}
 main{max-width:800px;margin:60px auto;padding:0 24px 60px}h1{font-size:2.4rem;line-height:1.15}
 h2{margin-top:2rem}p,li{color:#30434c}table{border-collapse:collapse;width:100%;font-size:1rem}
 th,td{padding:10px 8px;border-bottom:1px solid #cdd6d9;text-align:left}td:last-child{text-align:right}
 a{color:#07635e}small{display:block}aside{border-left:4px solid #b18b37;padding-left:20px}
-@media print{body{background:white;font-size:11pt}main{margin:0;max-width:none}h1{font-size:24pt}a{color:inherit}}
+img{max-width:100%;height:auto}code{font-size:.9em}@media print{body{background:white;font-size:11pt}main{margin:0;max-width:none}h1{font-size:24pt}a{color:inherit}}
 </style>
-<main>
-<small>WEGE3 · Base 31/12/2024 · Preparado em 06/11/2026</small>
-<h1>Qualidade operacional ainda precisa caber no preço.</h1>
-<aside><p>Estudo retrospectivo com projeções ilustrativas para 2025–29. Não incorpora
-resultados posteriores nem cotação atual. Não é recomendação de investimento.</p></aside>
-<h2>A tese</h2>
-<p>Motores, automação e equipamentos de rede permitem ligar demanda, capacidade e
-reinvestimento ao caixa. A diversificação da WEG oferece um bom caso de estudo,
-mas não substitui uma conta de retorno sobre o capital.</p>
-<p>O histórico vem da <a href="https://api.mziq.com/mzfilemanager/v2/d/50c1bd3e-8ac6-42d9-884f-b9d69f690602/f2b70b43-c767-ec6f-c3a5-a3da6aecf962?origin=1">DFP 2024</a>:
-receita de R$37.986,9 milhões e EBITDA de R$8.503,0 milhões em 2024.</p>
-<h2>O cenário ilustrativo</h2>
-<table><thead><tr><th scope="col">Premissa ou resultado</th><th scope="col">Valor</th></tr></thead><tbody>
-<tr><td>Crescimento da receita em 2025–29</td><td>12%, 11%, 10%, 9%, 8%</td></tr>
-<tr><td>Margem EBIT / alíquota operacional</td><td>20% / 34%</td></tr>
-<tr><td>D&amp;A / capex / NWC sobre receita</td><td>2,5% / 4,5% / 20%</td></tr>
-<tr><td>WACC nominal BRL / crescimento terminal</td><td>14,652% / 4%</td></tr>
-<tr><td>Enterprise value</td><td>R$45.324,9 milhões</td></tr>
-<tr><td>Equity value</td><td>R$49.242,9 milhões</td></tr>
-<tr><td><strong>Valor por ação</strong></td><td><strong>R$11,73</strong></td></tr>
-<tr><td>VP terminal / enterprise value</td><td>64,6%</td></tr>
-</tbody></table>
-<p>A ponte para equity inclui caixa, dívida financeira e uma hipótese de R$500 milhões
-de outros direitos, incluindo minoritários. Ações emitidas são uma aproximação.
-O resultado é reproduzível pela CLI <code>dcf</code>.</p>
-<h2>O que pode mudar a conta</h2>
-<p>Na grade de WACC entre 12,652% e 16,652% e crescimento terminal entre 3% e 5%,
-os valores vão de R$9,51 a R$15,67 por ação. A faixa descreve hipóteses, não uma
-distribuição de probabilidades. Não há comparação com preço de tela atual.</p>
-<p>Acompanharia pedidos convertidos em receita, margem EBIT, estoques, recebíveis e
-capex. Crescimento exige financiamento. Com quase dois terços do EV vindos da
-perpetuidade, a coerência entre reinvestimento e crescimento merece atenção.</p>
-<h2>Limites</h2>
-<p>Margem e capital de giro consolidados simplificam mix e sazonalidade. Aquisições,
-arrendamentos, derivativos, minoritários e tesouraria exigem revisão específica.
-O terminal cresce o FCFF como bloco, sem um ROIC terminal independente.</p>
-<p>O próximo passo econômico é reconstruir o reinvestimento por segmento e atualizar
-a base antes de discutir valor presente hoje.</p>
-<p><a href="pitch.md">Pitch completo em Markdown</a> ·
-<a href="methodology.md">Metodologia</a> · <a href="industry-deep-dive.md">Estudo setorial</a></p>
-</main>
-</html>
+</head><body><main>
+<h1>WEG: a tese de qualidade precisa explicar o preço</h1>
+<p><strong>WEGE3 · B3 · avaliação em 06/11/2026 · Victor Pimenta</strong></p>
+<p>Minha conclusão neste estudo é <strong>cautela com o preço</strong>: a operação pode ter vantagens
+industriais, mas as hipóteses explicitadas aqui não sustentam a cotação observada.
+O DCF base retorna <strong>R$11,67/ação</strong>, frente a <strong>R$48,23</strong> no snapshot de mercado.
+Isso é um resultado condicional do modelo, não um preço-alvo de consenso nem uma
+recomendação personalizada de investimento.</p>
+<h2>A empresa e a hipótese de investimento</h2>
+<p>Escolhi a WEG porque motores, automação e equipamentos para geração, transmissão e
+distribuição permitem conectar demanda, investimento em capacidade e capital de
+giro ao caixa. Produtos de reposição e projetos de maior duração oferecem ciclos
+diferentes. A presença internacional pode diversificar receita e também introduz
+câmbio e execução industrial. A descrição dos negócios está no
+<a href="https://api.mziq.com/mzfilemanager/v2/d/50c1bd3e-8ac6-42d9-884f-b9d69f690602/f2b70b43-c767-ec6f-c3a5-a3da6aecf962?origin=1">relatório da administração da DFP 2024, pp. 3–4</a>.</p>
+<p>Minha hipótese é que eficiência energética e expansão de redes podem sustentar
+pedidos, mas o retorno ao acionista depende do preço pago, da conversão de lucro
+em caixa e do reinvestimento necessário. A diversificação, sozinha, não recebe um
+prêmio automático no valuation.</p>
+<h2>O que os dados mostram</h2>
+<table>
+<thead>
+<tr>
+  <th>R$ milhões, exceto margem</th>
+  <th style="text-align:right">FY2024</th>
+  <th style="text-align:right">FY2025</th>
+  <th style="text-align:right">TTM set/2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Receita</td>
+  <td style="text-align:right">37.986,941</td>
+  <td style="text-align:right">40.804,110</td>
+  <td style="text-align:right">40.719,467</td>
+</tr>
+<tr>
+  <td>EBIT</td>
+  <td style="text-align:right">7.690,528</td>
+  <td style="text-align:right">7.998,741</td>
+  <td style="text-align:right">7.884,487</td>
+</tr>
+<tr>
+  <td>EBITDA = EBIT + D&amp;A</td>
+  <td style="text-align:right">8.503,013</td>
+  <td style="text-align:right">9.000,037</td>
+  <td style="text-align:right">8.952,604</td>
+</tr>
+<tr>
+  <td>Margem EBIT</td>
+  <td style="text-align:right">20,25%</td>
+  <td style="text-align:right">19,60%</td>
+  <td style="text-align:right">19,36%</td>
+</tr>
+</tbody>
+</table>
+<p>Fontes primárias: <a href="https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/dfp_cia_aberta_2025.zip">DFP 2025 CVM</a>
+e <a href="https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/itr_cia_aberta_2026.zip">ITR 2026 CVM</a>,
+CNPJ 84.429.695/0001-11, versão 1. TTM = FY2025 + 9M2026 − 9M2025.
+<a href="methodology.md#fonte-unidade-e-reconcilia%C3%A7%C3%A3o">Reconciliação, contas e unidades</a>.
+O TTM sobrepõe parte de FY2025; essa comparação não mede crescimento ano contra ano.</p>
+<h2>Quanto as premissas sustentam</h2>
+<table>
+<thead>
+<tr>
+  <th>Métrica</th>
+  <th style="text-align:right">Resultado ou premissa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Crescimento Y1–Y5</td>
+  <td style="text-align:right">12%, 11%, 10%, 9%, 8%</td>
+</tr>
+<tr>
+  <td>Margem EBIT / imposto</td>
+  <td style="text-align:right">20% / 34%</td>
+</tr>
+<tr>
+  <td>Capex / D&amp;A / NWC, sobre receita</td>
+  <td style="text-align:right">4,5% / 2,5% / 20%</td>
+</tr>
+<tr>
+  <td>WACC / g nominal BRL</td>
+  <td style="text-align:right">14,652% / 4,0%</td>
+</tr>
+<tr>
+  <td>Enterprise value</td>
+  <td style="text-align:right">R$48.585,26 milhões</td>
+</tr>
+<tr>
+  <td>Equity value</td>
+  <td style="text-align:right">R$48.967,86 milhões</td>
+</tr>
+<tr>
+  <td>Fair value base</td>
+  <td style="text-align:right"><strong>R$11,67/ação</strong></td>
+</tr>
+<tr>
+  <td>Cotação observada</td>
+  <td style="text-align:right"><strong>R$48,23/ação</strong></td>
+</tr>
+<tr>
+  <td>Spread base / cotação − 1</td>
+  <td style="text-align:right"><strong>−75,8%</strong></td>
+</tr>
+<tr>
+  <td>Monte Carlo P5 / mediana / P95</td>
+  <td style="text-align:right"><strong>R$8,95 / R$11,65 / R$15,26</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Cotação: <a href="https://finance.yahoo.com/quote/WEGE3.SA/">Yahoo Finance, WEGE3.SA</a>,
+<code>regularMarketPrice</code> capturado via yfinance. Horário de mercado <strong>06/11/2026
+17:50:34 −03:00</strong>; coleta <strong>18:05:36 −03:00</strong>. Pode haver atraso; não é rotulada
+como fechamento oficial. A avaliação usa os saldos patrimoniais de setembro sem
+roll-forward do mês intermediário. O snapshot permanece reproduzível offline.</p>
+<p>Os 10.000 cenários com seed 42 variam crescimento, margem, WACC e g em distribuições
+triangulares explicitadas na <a href="methodology.md#monte-carlo-reproduz%C3%ADvel">metodologia</a>.
+Nenhum desses sorteios supera a cotação. Isso <strong>não significa chance zero de alta</strong>:
+os suportes foram escolhidos pelo autor e excluem hipóteses mais otimistas e outros
+riscos. A distância para o preço pede revisão das premissas e da estrutura do modelo,
+não apenas mais simulações. Aproximadamente 64,6% do EV base vem do terminal.</p>
+<p><img src="../charts/price_vs_distribution.png" alt="Cotação e percentis do modelo" /></p>
+<h2>O que mudaria minha avaliação</h2>
+<p>A tese favorável exigiria crescimento persistente maior, margem superior, custo de
+capital menor ou combinação desses fatores. Eu procuraria evidência de pedidos
+convertidos em entregas, capacidade produtiva financiada e retorno incremental que
+sustente a perpetuidade. Crescer receita sem financiar estoques, recebíveis e
+fábricas não é uma hipótese econômica suficiente.</p>
+<p>Catalisadores a acompanhar são divulgação de pedidos e resultados, entrada de
+capacidade em operação e execução de projetos de rede. Eles podem alterar a
+percepção sobre crescimento e margem; este estudo não atribui data ou probabilidade
+a esses eventos. Uma redução de WACC sem melhora operacional também elevaria o DCF.</p>
+<p>A tese adversa combina adiamento de encomendas, compressão de margem e capex antes
+da receita. Isso pode afetar vários drivers simultaneamente, enquanto o Monte Carlo
+padrão assume independência entre seus quatro sorteios. O <a href="industry-deep-dive.md">deep dive brasileiro</a>
+relaciona esses mecanismos ao ciclo setorial.</p>
+<h2>Limites que pesam na conclusão</h2>
+<p>O modelo consolida negócios e países, não estima correlações empíricas e usa alíquota
+uniforme de 34%. Capex, D&amp;A e NWC fixos podem subestimar reinvestimento. O terminal
+não tem ROIC próprio. O saldo contábil de não controladores aproxima seu valor justo;
+arrendamentos são deduzidos como financiamento. Ações excluem tesouraria, sem previsão
+de diluição ou recompras. Mudanças nessas escolhas podem alterar materialmente o valor.</p>
+<p>Este pitch é auditável e reproduzível; não pretende encerrar a discussão sobre o
+valor da WEG. O <a href="../notebooks/weg_research.ipynb">notebook</a> permite alterar as
+hipóteses, e o <a href="../examples/weg-research.xlsx">Excel</a> mostra a conta por etapa.</p>
+
+</main></body></html>

@@ -1,0 +1,146 @@
+{
+  "valuation": {
+    "assumptions": {
+      "growth": [
+        0.12,
+        0.11,
+        0.1,
+        0.09,
+        0.08
+      ],
+      "ebit_margin": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "da_ratio": [
+        0.025,
+        0.025,
+        0.025,
+        0.025,
+        0.025
+      ],
+      "capex_ratio": [
+        0.045,
+        0.045,
+        0.045,
+        0.045,
+        0.045
+      ],
+      "nwc_ratio": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "risk_free": 0.1,
+      "beta": 0.9,
+      "equity_risk_premium": 0.06,
+      "debt_cost": 0.12,
+      "debt_weight": 0.1,
+      "tax_rate": 0.34,
+      "terminal_growth": 0.04,
+      "cash": 6339.447,
+      "debt": 3754.445,
+      "other_claims": 2202.401,
+      "shares": 4195.829691,
+      "opening_nwc_ratio": 0.2
+    },
+    "projections": [
+      {
+        "year": 2027,
+        "period_end": "2027-11-06",
+        "revenue": 45605.80304,
+        "ebit": 9121.160608,
+        "da": 1140.145076,
+        "capex": 2052.2611368,
+        "nwc": 9121.160608,
+        "delta_nwc": 977.2672080000002,
+        "fcff": 4130.582732479999
+      },
+      {
+        "year": 2028,
+        "period_end": "2028-11-06",
+        "revenue": 50622.441374400005,
+        "ebit": 10124.488274880001,
+        "da": 1265.5610343600001,
+        "capex": 2278.009861848,
+        "nwc": 10124.488274880001,
+        "delta_nwc": 1003.3276668800008,
+        "fcff": 4666.3857670528
+      },
+      {
+        "year": 2029,
+        "period_end": "2029-11-06",
+        "revenue": 55684.68551184001,
+        "ebit": 11136.937102368003,
+        "da": 1392.1171377960004,
+        "capex": 2505.8108480328005,
+        "nwc": 11136.937102368003,
+        "delta_nwc": 1012.4488274880023,
+        "fcff": 5224.235949838079
+      },
+      {
+        "year": 2030,
+        "period_end": "2030-11-06",
+        "revenue": 60696.307207905615,
+        "ebit": 12139.261441581124,
+        "da": 1517.4076801976405,
+        "capex": 2731.3338243557528,
+        "nwc": 12139.261441581124,
+        "delta_nwc": 1002.3243392131208,
+        "fcff": 5795.662068072309
+      },
+      {
+        "year": 2031,
+        "period_end": "2031-11-06",
+        "revenue": 65552.01178453807,
+        "ebit": 13110.402356907616,
+        "da": 1638.800294613452,
+        "capex": 2949.840530304213,
+        "nwc": 13110.402356907616,
+        "delta_nwc": 971.1409153264922,
+        "fcff": 6370.684404541773
+      }
+    ],
+    "wacc": 0.14652,
+    "valuation_date": "2026-11-06",
+    "enterprise_value": 48585.256324505244,
+    "equity_value": 48967.85732450525,
+    "price_per_share": 11.670601747621134
+  },
+  "monte_carlo": {
+    "mean": 11.824592645272695,
+    "p05": 8.952079780402942,
+    "p10": 9.455427066035197,
+    "p25": 10.404875290530452,
+    "p50": 11.649696034284975,
+    "p75": 13.040149243753193,
+    "p90": 14.44518319665533,
+    "p95": 15.25502980164427
+  },
+  "simulation_config": {
+    "samples": 10000,
+    "seed": 42,
+    "growth_spread": 0.05,
+    "margin_spread": 0.04,
+    "wacc_spread": 0.025,
+    "terminal_spread": 0.015,
+    "distribution": "independent symmetric triangular; mode=base, bounds=base\u00b1spread",
+    "persistence": "one growth shift and one margin shift applied to all five years",
+    "interpretation": "subjective fair-value uncertainty, not a future-price forecast"
+  },
+  "quote": {
+    "ticker": "WEGE3.SA",
+    "currency": "BRL",
+    "price": 48.23,
+    "timestamp": "2026-11-06T17:50:34-03:00",
+    "fetched_at": "2026-11-06T21:05:36.399375+00:00",
+    "source_url": "https://finance.yahoo.com/quote/WEGE3.SA/",
+    "provider": "Yahoo Finance via yfinance; regularMarketPrice (may be delayed)",
+    "mode": "snapshot"
+  }
+}
