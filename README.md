@@ -26,9 +26,9 @@ mostra o que essas premissas não explicam. Não equivale a uma probabilidade de
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VictorPimentaDev/dcf-valuation-model/blob/main/notebooks/weg_research.ipynb)
 
-No Colab, envie o ZIP do código-fonte quando a primeira célula pedir. Enquanto o
-repo for privado, abra o notebook com uma conta autorizada ou baixe o `.ipynb` e
-use **Upload notebook** no Colab; não coloque tokens nas células.
+No Colab, a primeira célula instala o pacote direto deste repositório público, sem
+token ou upload. As demais rodam com as fixtures do próprio pacote e salvam os
+artefatos em `outputs/notebook/`, no disco temporário da sessão.
 
 ## Ler e inspecionar
 
@@ -56,6 +56,16 @@ Os dois comandos de reprodução usam **somente fixtures locais**. O script exec
 o notebook e salva `outputs/weg_research.executed.ipynb`; suas células geram Excel,
 CSV das amostras e PNGs em `outputs/notebook/`. A CLI gera Excel, JSON e quatro PNGs.
 Os destinos informados são sobrescritos. Nenhum token ou credencial é necessário.
+
+Para regenerar os artefatos versionados no próprio lugar:
+
+```bash
+dcf --output examples/weg-research.xlsx --charts-dir charts --samples 10000 --seed 42
+```
+
+Os números não mudam entre Python 3.11, 3.13 e 3.14. Os bytes do `.xlsx` mudam a cada
+execução porque o arquivo guarda o horário de criação, e os PNGs podem variar com a
+versão do matplotlib; por isso os testes comparam JSON e células, não hashes.
 
 Para buscar outra cotação, explicitamente:
 
@@ -94,11 +104,12 @@ Os suportes são validados integralmente, incluindo WACC > g.
 | DCF | Desconto, terminal, EV, equity e valor por ação |
 | WACC | CAPM e estrutura-alvo de capital |
 | Sensitivity | Grade WACC × g, redescontando todos os fluxos |
-| Sources | Referências, unidades, datas e ressalvas |
 | MonteCarlo | Seed, parâmetros, cotação, resumo e 10.000 amostras |
+| Sources | Referências, unidades, datas e ressalvas |
 
-As sete primeiras abas têm fórmulas. `MonteCarlo` é um **snapshot calculado em Python**:
-editar premissas marca a aba como desatualizada; execute a simulação novamente.
+As seis primeiras abas têm fórmulas e `Sources` é só texto. `MonteCarlo` é um
+**snapshot calculado em Python**: sua única fórmula compara as premissas e marca a aba
+como desatualizada quando elas mudam; execute a simulação novamente.
 openpyxl não calcula caches das fórmulas. Abra no Excel/LibreOffice com recálculo
 ativo; leitores de valores armazenados podem mostrar células vazias. A CLI e o
 notebook calculam os resultados sem aplicativo de planilha.
@@ -134,13 +145,15 @@ python -m build
 CI em Python 3.11 e 3.13: lint, testes, pacote, geração de Excel/gráficos e execução
 do notebook offline. Testes cobrem conta independente em Decimal, reconciliação
 CVM, NPV, seeds, suporte dos drivers, fórmulas, cenário editado, PNGs e cotação.
-Excel/LibreOffice nativo não foi executado; o arquivo também foi auditado em motor
-independente de planilhas. Veja as limitações econômicas na metodologia.
+O Excel versionado foi recalculado no LibreOffice 26.8: 145 fórmulas sem erro, com DCF,
+EV e centro da sensibilidade iguais ao Python. Microsoft Excel não foi executado. O
+Colab hospedado também não: a instalação foi exercitada localmente, com o módulo
+`google.colab` simulado. Veja as limitações econômicas na metodologia.
 
 Código sob [MIT](LICENSE). Dados CVM: atribuição à CVM e condições
 [ODbL indicadas no catálogo](https://dados.cvm.gov.br/dataset/cia_aberta-doc-itr).
 Documentos RI e dados de mercado mantêm as condições dos respectivos provedores.
 Este material é educacional e não constitui recomendação de investimento.
 
-Social preview: [imagem 1280×640 pronta](assets/social-preview.png). O primeiro
-upload no GitHub fica para depois de tornar o repo público; a visibilidade segue privada.
+Social preview: [imagem 1280×640 pronta](assets/social-preview.png); o upload é manual,
+em **Settings → Social preview** no GitHub.

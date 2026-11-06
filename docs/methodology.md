@@ -123,9 +123,10 @@ e instante de coleta são distintos; falha de rede não vira fallback silencioso
 Uma nova cotação não atualiza os fundamentos nem muda automaticamente a data da
 avaliação. Se as datas se afastarem, atualize a pesquisa antes de interpretar o spread.
 
-As sete abas originais preservam fórmulas editáveis; `MonteCarlo` contém parâmetros,
-seed, resumo, cotação e amostras calculadas em Python. Ela é um **snapshot**, não
-uma simulação dinâmica do Excel: após editar premissas, execute o Python novamente.
+As seis abas de cálculo preservam fórmulas editáveis e `Sources` é só texto. `MonteCarlo`
+contém parâmetros, seed, resumo, cotação e amostras calculadas em Python. Ela é um
+**snapshot**, não uma simulação dinâmica do Excel: sua única fórmula marca o estado
+como desatualizado; após editar premissas, execute o Python novamente.
 openpyxl não calcula caches das fórmulas; Excel/LibreOffice precisa recalculá-las.
 O notebook e a CLI funcionam sem rede no modo padrão. Testes de rede usam mocks;
 a coleta real da cotação na preparação foi verificada separadamente.

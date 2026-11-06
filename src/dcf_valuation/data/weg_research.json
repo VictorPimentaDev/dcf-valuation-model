@@ -51,16 +51,16 @@
       "id": "DFP24",
       "title": "WEG DFP 2024 — Relatório da administração",
       "url": "https://api.mziq.com/mzfilemanager/v2/d/50c1bd3e-8ac6-42d9-884f-b9d69f690602/f2b70b43-c767-ec6f-c3a5-a3da6aecf962?origin=1",
-      "location": "p. 5 tabela 1; p. 6 tabela 2; p. 7 mercado de capitais",
-      "scope": "2022–24 receita, EBITDA, D&A; 2024 dívida, caixa e aplicações, ações emitidas",
+      "location": "pp. 3–4 áreas de negócio; p. 5 tabela 1; p. 6 tabela 2; p. 7 tabela 3",
+      "scope": "Descrição dos negócios (pp. 3–4). Referência do caso retrospectivo de 2024; não alimenta TTM nem ponte atuais",
       "notes": "R$ mil dividido por 1.000. Ações divididas por 1.000.000. Caixa exclui derivativos líquidos de R$190,678 milhões."
     },
     {
       "id": "CVMDFP2025",
       "title": "CVM WEG DFP 2025, versão 1",
       "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/dfp_cia_aberta_2025.zip",
-      "location": "DRE/DFC_MI/BPA/BPP consolidados; composição do capital; CNPJ 84.429.695/0001-11",
-      "scope": "FY2024/FY2025 comparativos e 9M2025/9M2026; saldos 30/09/2026",
+      "location": "DRE/DFC_MI/BPA/BPP consolidados; CNPJ 84.429.695/0001-11",
+      "scope": "FY2024 e FY2025 (exercícios encerrados em 31/12)",
       "notes": "R$ mil / 1000. Linhas auditáveis em cvm_weg.csv. TTM = FY25 + 9M26 - 9M25. EBITDA = EBIT + D&A da DFC; não EBITDA ajustado.",
       "sha256": "85f53d6aba99557ebb8a5f8b247c0610973230c1a0f97ab267da2216816a8ab6"
     },
@@ -69,8 +69,8 @@
       "title": "CVM WEG ITR 2026, versão 1",
       "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/itr_cia_aberta_2026.zip",
       "location": "DRE/DFC_MI/BPA/BPP consolidados; composição do capital; CNPJ 84.429.695/0001-11",
-      "scope": "FY2024/FY2025 comparativos e 9M2025/9M2026; saldos 30/09/2026",
-      "notes": "R$ mil / 1000. Linhas auditáveis em cvm_weg.csv. TTM = FY25 + 9M26 - 9M25. EBITDA = EBIT + D&A da DFC; não EBITDA ajustado.",
+      "scope": "9M2025 e 9M2026; saldos e composição do capital em 30/09/2026",
+      "notes": "R$ mil / 1000. Linhas auditáveis em cvm_weg.csv e capital_weg.json. TTM = FY25 + 9M26 - 9M25. EBITDA = EBIT + D&A da DFC; não EBITDA ajustado.",
       "sha256": "fe34b2eb27a701a9f978d39bc2e0d5228b906c0365d6c5e23d86590eef9aa788"
     },
     {
