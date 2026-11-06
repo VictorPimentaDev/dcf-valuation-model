@@ -80,7 +80,7 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
     s["C16"] = "Capital e ponte para o acionista"
     s["D16"] = "Valor"
     s.merge_cells("E16:H16")
-    s["E16"] = "Origem / definição"
+    s["E16"] = "Origem do padrão (valores editáveis)"
     scalars = [
         ("Taxa livre de risco nominal BRL", a.risk_free, "Hipótese: 10%; não é cotação de título"),
         ("Beta alavancado", a.beta, "Hipótese: 0,90; sem regressão"),
@@ -228,7 +228,7 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
         s.cell(6, column, f"='Assumptions'!{c}6")
         s.cell(7, column, f"='Projections'!{c}17")
         s.cell(8, column, column - 3).number_format = "0"
-        s.cell(9, column, f"=1/(1+'WACC'!$D$17)^{c}8").number_format = "0.000x"
+        s.cell(9, column, f"=1/(1+'WACC'!$D$17)^{c}8").number_format = '0.000"x"'
         s.cell(10, column, f"={c}7*{c}9")
     summary = [
         (
