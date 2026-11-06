@@ -1,4 +1,4 @@
-# WEG · B3 equity research
+# B3 equity research toolkit in Python
 
 [![CI](https://github.com/VictorPimentaDev/dcf-valuation-model/actions/workflows/ci.yml/badge.svg)](https://github.com/VictorPimentaDev/dcf-valuation-model/actions/workflows/ci.yml)
 
@@ -23,6 +23,12 @@ e não é apresentada como fechamento oficial. O spread base é −75,8%; a dist
 mostra o que essas premissas não explicam. Não equivale a uma probabilidade de queda.
 [Preço e metadados](src/dcf_valuation/data/weg_research.json) ·
 [fonte da cotação](https://finance.yahoo.com/quote/WEGE3.SA/).
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VictorPimentaDev/dcf-valuation-model/blob/main/notebooks/weg_research.ipynb)
+
+No Colab, envie o ZIP do código-fonte quando a primeira célula pedir. Enquanto o
+repo for privado, abra o notebook com uma conta autorizada ou baixe o `.ipynb` e
+use **Upload notebook** no Colab; não coloque tokens nas células.
 
 ## Ler e inspecionar
 
@@ -135,3 +141,6 @@ Código sob [MIT](LICENSE). Dados CVM: atribuição à CVM e condições
 [ODbL indicadas no catálogo](https://dados.cvm.gov.br/dataset/cia_aberta-doc-itr).
 Documentos RI e dados de mercado mantêm as condições dos respectivos provedores.
 Este material é educacional e não constitui recomendação de investimento.
+
+Social preview: [imagem 1280×640 pronta](assets/social-preview.png). O primeiro
+upload no GitHub fica para depois de tornar o repo público; a visibilidade segue privada.
