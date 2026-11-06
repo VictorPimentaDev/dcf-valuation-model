@@ -1,5 +1,7 @@
-"""Seven-sheet editable Excel model. Excel/LibreOffice performs recalculation."""
+"""Editable DCF plus an explicitly frozen Monte Carlo research snapshot."""
 
+import json
+from dataclasses import asdict
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -7,7 +9,8 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
-from .model import Assumptions, load_data
+from .model import Assumptions, calculate, load_assumptions, load_data
+from .monte_carlo import Simulation, simulate
 
 NUMBER = '#,##0.0;(#,##0.0);"–"'
 PERCENT = '0.0%;(0.0%);"–"'
@@ -24,9 +27,28 @@ def _validation(sheet, cell_range: str, minimum: float, maximum: float) -> None:
     rule.add(cell_range)
 
 
-def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -> Path:
-    a = assumptions or Assumptions()
-    data = load_data()
+def build_workbook(
+    output: str | Path,
+    assumptions: Assumptions | None = None,
+    *,
+    data: dict | None = None,
+    simulation: Simulation | None = None,
+    quote: dict | None = None,
+) -> Path:
+    data = data or load_data()
+    a = assumptions or load_assumptions(data)
+    simulation = simulation or simulate(a, data=data)
+    if (
+        asdict(simulation.assumptions) != asdict(a)
+        or simulation.valuation_date != data["valuation_date"]
+        or simulation.base_revenue != data["historical"][-1]["revenue"]
+    ):
+        raise ValueError(
+            "simulation must match workbook assumptions, valuation date and revenue base"
+        )
+    quote = quote or data.get("quote")
+    projection_dates = [p["period_end"] for p in calculate(a, data)["projections"]]
+    historical_column = get_column_letter(3 + len(data["historical"]))
     book = Workbook()
     book.remove(book.active)
     for title in (
@@ -36,6 +58,7 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
         "DCF",
         "WACC",
         "Sensitivity",
+        "MonteCarlo",
         "Sources",
     ):
         sheet = book.create_sheet(title)
@@ -49,7 +72,7 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
         sheet.merge_cells("C2:H2")
         sheet["C2"] = f"WEG • {title}"
         sheet.merge_cells("C3:H3")
-        sheet["C3"] = "Base 31/12/2024 • R$ milhões • modelo retrospectivo ilustrativo"
+        sheet["C3"] = f"Valuation {data['valuation_date']} • R$ milhões • premissas ilustrativas"
         sheet.row_dimensions[3].height = 30
         sheet.sheet_properties.pageSetUpPr.fitToPage = True
         sheet.page_setup.orientation = "landscape"
@@ -67,7 +90,7 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
         ("Capex / receita", a.capex_ratio),
         ("NWC / receita", a.nwc_ratio),
     ]
-    for column, year in enumerate(range(2025, 2030), 4):
+    for column, year in enumerate(projection_dates, 4):
         s.cell(6, column, year)
     for row, (label, values) in enumerate(drivers, 7):
         s.cell(row, 3, label)
@@ -97,15 +120,15 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
         ),
         ("Alíquota sobre EBIT positivo", a.tax_rate, "Hipótese simplificada: 34%"),
         ("Crescimento na perpetuidade", a.terminal_growth, "Hipótese nominal BRL; deve ser < WACC"),
-        ("Caixa e aplicações", a.cash, "DFP24 p. 6; exclui derivativos"),
-        ("Dívida financeira", a.debt, "DFP24 p. 6; não inclui outros direitos"),
+        ("Caixa e aplicações", a.cash, "Fixture versionada; fontes e data na aba Sources"),
+        ("Dívida financeira", a.debt, "Fixture versionada; fontes e data na aba Sources"),
         (
             "Outros direitos / minoritários",
             a.other_claims,
-            "Hipótese de R$500 mi; estimativa a revisar",
+            "Fixture versionada; premissa/valor divulgado conforme Sources",
         ),
-        ("Ações emitidas (milhões)", a.shares, "DFP24 p. 7; proxy, sem ajuste de tesouraria"),
-        ("NWC inicial / receita 2024", a.opening_nwc_ratio, "Hipótese: 20%; não é saldo divulgado"),
+        ("Ações emitidas (milhões)", a.shares, "Fixture versionada; proxy sem diluição futura"),
+        ("NWC inicial / receita base", a.opening_nwc_ratio, "Hipótese: 20%; não é saldo divulgado"),
     ]
     for row, (label, value, origin) in enumerate(scalars, 17):
         s.cell(row, 3, label)
@@ -132,10 +155,10 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
     )
 
     s = book["Historical"]
-    s["C6"] = "Histórico reportado • DFP24"
+    s["C6"] = "Histórico • último período é a base"
     for column, period in enumerate(data["historical"], 4):
         letter = get_column_letter(column)
-        s.cell(6, column, period["year"])
+        s.cell(6, column, period.get("period", period["year"]))
         for row, key in ((7, "revenue"), (8, "ebitda"), (9, "da")):
             s.cell(row, column, period[key])
         s.cell(10, column, f"={letter}8-{letter}9")
@@ -146,8 +169,9 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
         s.cell(row, 3, label)
     s.merge_cells("C14:H16")
     s["C14"] = (
-        "DFP24 p. 5, tabela 1. Valores divulgados em R$ mil convertidos para R$ milhões. "
-        "Receita, EBITDA e D&A são reportados; EBIT e margem são calculados."
+        "R$ milhões. Veja períodos, fontes e reconciliação na fixture e em Sources. "
+        "TTM, quando indicado, é calculado por FY + 9M atual − 9M anterior. "
+        "EBIT = EBITDA − D&A; bases e eventuais aproximações estão identificadas."
     )
 
     s = book["Projections"]
@@ -169,8 +193,12 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
     for column in range(4, 9):
         c = get_column_letter(column)
         previous = get_column_letter(column - 1)
-        revenue_base = "'Historical'!F7" if column == 4 else f"{previous}7"
-        nwc_base = "'Historical'!F7*'Assumptions'!$D$28" if column == 4 else f"{previous}15"
+        revenue_base = f"'Historical'!{historical_column}7" if column == 4 else f"{previous}7"
+        nwc_base = (
+            f"'Historical'!{historical_column}7*'Assumptions'!$D$28"
+            if column == 4
+            else f"{previous}15"
+        )
         formulas = {
             6: f"='Assumptions'!{c}6",
             7: f"={revenue_base}*(1+{c}8)",
@@ -256,7 +284,7 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
     s["D25"].number_format = PERCENT
     s.merge_cells("C28:H30")
     s["C28"] = (
-        "Data-base 31/12/2024; fluxos anuais ao fim de 2025–29. "
+        f"Data-base {data['valuation_date']}; cinco fluxos anuais completos a partir desta data. "
         "Gordon cresce o FCFF final como bloco, sem ROIC terminal independente. "
         "O resultado depende da reinversão implícita; consulte metodologia."
     )
@@ -298,8 +326,61 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
         for column, key in enumerate(("id", "title", "url", "location", "scope", "notes"), 3):
             s.cell(row, column, source[key])
         s.row_dimensions[row].height = 100
-    s.merge_cells("C12:H12")
-    s["C12"] = f"Conferência das fontes: {data['reviewed_on']}. Dados embutidos, sem coleta em CI."
+    source_footer = 8 + len(data["sources"])
+    s.merge_cells(f"C{source_footer}:H{source_footer}")
+    s.cell(
+        source_footer, 3, f"Fontes: {data['reviewed_on']}. Fixture offline; coleta live opcional."
+    )
+    if quote:
+        s.cell(source_footer + 2, 3, "Cotação usada")
+        s.cell(source_footer + 2, 4, quote["price"])
+        s.cell(source_footer + 2, 5, quote["source_url"])
+        s.cell(source_footer + 2, 6, quote["timestamp"])
+        s.cell(source_footer + 2, 7, quote["provider"])
+
+    s = book["MonteCarlo"]
+    s["C6"], s["D6"] = "Snapshot Python • não recalcula no Excel", "Valor"
+    s["C7"], s["D7"] = "Seed", simulation.config.seed
+    s["C8"], s["D8"] = "Número de trajetórias", simulation.config.samples
+    for row, (key, item) in enumerate(simulation.summary.items(), 9):
+        s.cell(row, 3, key)
+        s.cell(row, 4, item).number_format = PRICE
+    s["C17"], s["D17"] = "Cotação de comparação", quote["price"] if quote else "Indisponível"
+    s["C18"], s["D18"] = "Cotação: timestamp", quote["timestamp"] if quote else "Indisponível"
+    s["C19"], s["D19"] = "Cotação: fonte", quote["source_url"] if quote else "Indisponível"
+    s["C20"], s["D20"] = "Parâmetros Monte Carlo", json.dumps(simulation.config.metadata())
+    s["C21"], s["D21"] = "Premissas congeladas", json.dumps(asdict(a))
+    checks = []
+    for row in range(7, 12):
+        for column in range(4, 9):
+            cell = book["Assumptions"].cell(row, column)
+            checks.append(f"'Assumptions'!{cell.coordinate}={cell.value!r}")
+    for row in range(17, 29):
+        cell = book["Assumptions"].cell(row, 4)
+        checks.append(f"'Assumptions'!{cell.coordinate}={cell.value!r}")
+    for column, period in enumerate(data["historical"], 4):
+        checks.append(f"'Historical'!{get_column_letter(column)}7={period['revenue']!r}")
+    s["C22"] = "Estado do snapshot"
+    s["D22"] = "=IF(AND(" + ",".join(checks) + '),"CURRENT","STALE — rerun Python")'
+    s.merge_cells("C23:I24")
+    s["C23"] = (
+        "Distribuições triangulares independentes; um spread de crescimento/margem por trajetória. "
+        "Todo suporte atende WACC > g, sem clipping. Percentis subjetivos de fair value, "
+        "não previsão "
+        "de preço. Reexecute Python após editar entradas; fórmulas DCF continuam editáveis."
+    )
+    for column, label in enumerate(simulation.samples.columns, 3):
+        s.cell(26, column, label)
+    for row, values in enumerate(simulation.samples.itertuples(index=False, name=None), 27):
+        for column, item in enumerate(values, 3):
+            s.cell(row, column, item).number_format = PRICE if column == 9 else PERCENT
+    s.column_dimensions["I"].width = 22
+    s.freeze_panes = "D27"
+    for row in (19, 20, 21, 22):
+        s.merge_cells(start_row=row, start_column=4, end_row=row, end_column=9)
+    s.row_dimensions[20].height = 85
+    s.row_dimensions[21].height = 130
+    s.row_dimensions[23].height = 70
 
     for sheet in book:
         for row in sheet.iter_rows():
@@ -341,7 +422,7 @@ def build_workbook(output: str | Path, assumptions: Assumptions | None = None) -
             if sheet.row_dimensions[row].height is None:
                 sheet.row_dimensions[row].height = 29
         sheet.print_options.horizontalCentered = True
-        sheet.print_area = f"C2:H{sheet.max_row}"
+        sheet.print_area = "C2:I24" if sheet.title == "MonteCarlo" else f"C2:H{sheet.max_row}"
     for name, rows in (("DCF", (18, 22, 24)), ("Projections", (17,)), ("WACC", (17,))):
         for row in rows:
             for cell in book[name][row][2:8]:

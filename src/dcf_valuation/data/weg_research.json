@@ -1,0 +1,95 @@
+{
+  "company": "WEG S.A.",
+  "ticker": "WEGE3",
+  "reviewed_on": "2026-11-06",
+  "units": "BRL millions, except shares in millions and per-share values in BRL",
+  "valuation_date": "2026-11-06",
+  "financial_period_end": "2026-09-30",
+  "historical": [
+    {
+      "year": 2024,
+      "period": "FY2024",
+      "revenue": 37986.941,
+      "ebitda": 8503.013,
+      "da": 812.485
+    },
+    {
+      "year": 2025,
+      "period": "FY2025",
+      "revenue": 40804.11,
+      "ebitda": 9000.037,
+      "da": 1001.296
+    },
+    {
+      "year": 2026,
+      "period": "TTM Sep2026",
+      "revenue": 40719.467,
+      "ebitda": 8952.604,
+      "da": 1068.117
+    }
+  ],
+  "assumptions": {
+    "cash": 6339.447,
+    "debt": 3754.445,
+    "other_claims": 2202.401,
+    "shares": 4195.829691
+  },
+  "bridge": {
+    "as_of": "2026-09-30",
+    "cash_equivalents": 5484.016,
+    "current_investments": 855.431,
+    "loans_current": 1917.755,
+    "loans_noncurrent": 1836.69,
+    "leases_current": 193.101,
+    "leases_noncurrent": 598.991,
+    "noncontrolling_interests_book": 1410.309,
+    "issued_shares": 4197.317998,
+    "treasury_shares": 1.488307
+  },
+  "sources": [
+    {
+      "id": "DFP24",
+      "title": "WEG DFP 2024 — Relatório da administração",
+      "url": "https://api.mziq.com/mzfilemanager/v2/d/50c1bd3e-8ac6-42d9-884f-b9d69f690602/f2b70b43-c767-ec6f-c3a5-a3da6aecf962?origin=1",
+      "location": "p. 5 tabela 1; p. 6 tabela 2; p. 7 mercado de capitais",
+      "scope": "2022–24 receita, EBITDA, D&A; 2024 dívida, caixa e aplicações, ações emitidas",
+      "notes": "R$ mil dividido por 1.000. Ações divididas por 1.000.000. Caixa exclui derivativos líquidos de R$190,678 milhões."
+    },
+    {
+      "id": "CVMDFP2025",
+      "title": "CVM WEG DFP 2025, versão 1",
+      "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/dfp_cia_aberta_2025.zip",
+      "location": "DRE/DFC_MI/BPA/BPP consolidados; composição do capital; CNPJ 84.429.695/0001-11",
+      "scope": "FY2024/FY2025 comparativos e 9M2025/9M2026; saldos 30/09/2026",
+      "notes": "R$ mil / 1000. Linhas auditáveis em cvm_weg.csv. TTM = FY25 + 9M26 - 9M25. EBITDA = EBIT + D&A da DFC; não EBITDA ajustado.",
+      "sha256": "85f53d6aba99557ebb8a5f8b247c0610973230c1a0f97ab267da2216816a8ab6"
+    },
+    {
+      "id": "CVMITR2026",
+      "title": "CVM WEG ITR 2026, versão 1",
+      "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/itr_cia_aberta_2026.zip",
+      "location": "DRE/DFC_MI/BPA/BPP consolidados; composição do capital; CNPJ 84.429.695/0001-11",
+      "scope": "FY2024/FY2025 comparativos e 9M2025/9M2026; saldos 30/09/2026",
+      "notes": "R$ mil / 1000. Linhas auditáveis em cvm_weg.csv. TTM = FY25 + 9M26 - 9M25. EBITDA = EBIT + D&A da DFC; não EBITDA ajustado.",
+      "sha256": "fe34b2eb27a701a9f978d39bc2e0d5228b906c0365d6c5e23d86590eef9aa788"
+    },
+    {
+      "id": "AUTHOR",
+      "title": "Premissas do autor, não consenso ou guidance",
+      "url": "",
+      "location": "docs/methodology.md",
+      "scope": "Próximos 5 períodos de 12 meses desde 06/11/2026",
+      "notes": "Crescimento, margens, taxas e reinvestimento são ilustrativos. Ponte usa saldos de 30/09/2026 sem roll-forward. Outros direitos = leases + NCI contábil como proxy. Distribuições não calibradas empiricamente."
+    }
+  ],
+  "quote": {
+    "ticker": "WEGE3.SA",
+    "currency": "BRL",
+    "price": 48.23,
+    "timestamp": "2026-11-06T17:50:34-03:00",
+    "fetched_at": "2026-11-06T21:05:36.399375+00:00",
+    "source_url": "https://finance.yahoo.com/quote/WEGE3.SA/",
+    "provider": "Yahoo Finance via yfinance; regularMarketPrice (may be delayed)",
+    "mode": "live"
+  }
+}

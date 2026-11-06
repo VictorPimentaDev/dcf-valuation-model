@@ -2,6 +2,8 @@
 
 from collections.abc import Sequence
 
+import numpy_financial as npf
+
 from .statements import enterprise_to_equity
 from .terminal import terminal_value
 from .validation import number
@@ -11,10 +13,7 @@ def enterprise_value(cash_flows: Sequence[float], discount_rate: float, growth: 
     if not cash_flows:
         raise ValueError("at least one forecast cash flow is required")
     terminal = terminal_value(cash_flows[-1], discount_rate, growth)
-    present = sum(
-        number(flow, "FCFF") / (1 + discount_rate) ** year
-        for year, flow in enumerate(cash_flows, 1)
-    )
+    present = float(npf.npv(discount_rate, [0, *[number(flow, "FCFF") for flow in cash_flows]]))
     return present + terminal / (1 + discount_rate) ** len(cash_flows)
 
 

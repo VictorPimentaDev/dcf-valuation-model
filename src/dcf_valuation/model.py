@@ -2,6 +2,7 @@
 
 import json
 from dataclasses import asdict, dataclass
+from datetime import date
 from importlib.resources import files
 
 from .revenue import build_revenue
@@ -11,8 +12,13 @@ from .validation import fraction, number
 from .wacc import cost_of_equity, wacc
 
 
-def load_data() -> dict:
-    return json.loads(files("dcf_valuation").joinpath("data/weg_2024.json").read_text())
+def load_data(dataset: str = "weg_research.json") -> dict:
+    """Read a versioned offline fixture; the original 2024 case remains selectable."""
+    return json.loads(files("dcf_valuation").joinpath(f"data/{dataset}").read_text())
+
+
+def load_assumptions(data: dict | None = None) -> "Assumptions":
+    return Assumptions(**(data or load_data()).get("assumptions", {}))
 
 
 @dataclass(frozen=True)
@@ -61,8 +67,15 @@ class Assumptions:
         )
 
 
-def calculate(assumptions: Assumptions) -> dict:
-    historical = load_data()["historical"][-1]
+def calculate(
+    assumptions: Assumptions, data: dict | None = None, *, discount_rate: float | None = None
+) -> dict:
+    """Value five full annual periods from valuation_date, using the latest revenue base."""
+    data = data or load_data()
+    historical = data["historical"][-1]
+    asof = date.fromisoformat(data["valuation_date"])
+    rate = assumptions.discount_rate if discount_rate is None else discount_rate
+    number(rate, "discount rate", 0)
     revenues = build_revenue(historical["revenue"], assumptions.growth)
     previous_nwc = historical["revenue"] * assumptions.opening_nwc_ratio
     projections = []
@@ -75,7 +88,8 @@ def calculate(assumptions: Assumptions) -> dict:
         fcff = unlevered_cash_flow(ebit, assumptions.tax_rate, da, capex, delta_nwc)
         projections.append(
             {
-                "year": historical["year"] + index + 1,
+                "year": asof.year + index + 1,
+                "period_end": asof.replace(year=asof.year + index + 1).isoformat(),
                 "revenue": revenue,
                 "ebit": ebit,
                 "da": da,
@@ -87,12 +101,13 @@ def calculate(assumptions: Assumptions) -> dict:
         )
         previous_nwc = nwc
     flows = [period["fcff"] for period in projections]
-    ev = enterprise_value(flows, assumptions.discount_rate, assumptions.terminal_growth)
+    ev = enterprise_value(flows, rate, assumptions.terminal_growth)
     equity = enterprise_to_equity(ev, assumptions.cash, assumptions.debt, assumptions.other_claims)
     return {
         "assumptions": asdict(assumptions),
         "projections": projections,
-        "wacc": assumptions.discount_rate,
+        "wacc": rate,
+        "valuation_date": data["valuation_date"],
         "enterprise_value": ev,
         "equity_value": equity,
         "price_per_share": equity / assumptions.shares,

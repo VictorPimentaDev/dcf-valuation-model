@@ -1,0 +1,41 @@
+file,CNPJ_CIA,DT_REFER,VERSAO,ESCALA_MOEDA,ORDEM_EXERC,DT_INI_EXERC,DT_FIM_EXERC,CD_CONTA,DS_CONTA,VL_CONTA
+dfp_cia_aberta_DRE_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,2024-01-01,2024-12-31,3.01,Receita de Venda de Bens e/ou Serviços,37986941.0000000000
+dfp_cia_aberta_DRE_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,2025-01-01,2025-12-31,3.01,Receita de Venda de Bens e/ou Serviços,40804110.0000000000
+dfp_cia_aberta_DRE_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,2024-01-01,2024-12-31,3.05,Resultado Antes do Resultado Financeiro e dos Tributos,7690528.0000000000
+dfp_cia_aberta_DRE_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,2025-01-01,2025-12-31,3.05,Resultado Antes do Resultado Financeiro e dos Tributos,7998741.0000000000
+dfp_cia_aberta_DFC_MI_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,2024-01-01,2024-12-31,6.01.01.02,"Depreciação, Amortização e Exaustão",812485.0000000000
+dfp_cia_aberta_DFC_MI_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,2025-01-01,2025-12-31,6.01.01.02,"Depreciação, Amortização e Exaustão",1001296.0000000000
+dfp_cia_aberta_BPA_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,,2024-12-31,1.01.01,Caixa e Equivalentes de Caixa,7347599.0000000000
+dfp_cia_aberta_BPA_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,,2025-12-31,1.01.01,Caixa e Equivalentes de Caixa,6296498.0000000000
+dfp_cia_aberta_BPA_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,,2024-12-31,1.01.02,Aplicações Financeiras,648477.0000000000
+dfp_cia_aberta_BPA_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,,2025-12-31,1.01.02,Aplicações Financeiras,983367.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,,2024-12-31,2.01.04,Empréstimos e Financiamentos,2850956.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,,2025-12-31,2.01.04,Empréstimos e Financiamentos,3549314.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,,2024-12-31,2.01.05.02.07,Arrendamentos,107668.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,,2025-12-31,2.01.05.02.07,Arrendamentos,221934.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,,2024-12-31,2.02.01,Empréstimos e Financiamentos,744281.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,,2025-12-31,2.02.01,Empréstimos e Financiamentos,1041508.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,,2024-12-31,2.02.02.02.05,Arrendamentos,715450.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,,2025-12-31,2.02.02.02.05,Arrendamentos,625219.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,PENÚLTIMO,,2024-12-31,2.03.09,Participação dos Acionistas Não Controladores,920996.0000000000
+dfp_cia_aberta_BPP_con_2025.csv,84.429.695/0001-11,2025-12-31,1,MIL,ÚLTIMO,,2025-12-31,2.03.09,Participação dos Acionistas Não Controladores,1136179.0000000000
+itr_cia_aberta_DRE_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,2025-01-01,2025-09-30,3.01,Receita de Venda de Bens e/ou Serviços,30557320.0000000000
+itr_cia_aberta_DRE_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,2026-01-01,2026-09-30,3.01,Receita de Venda de Bens e/ou Serviços,30472677.0000000000
+itr_cia_aberta_DRE_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,2025-01-01,2025-09-30,3.05,Resultado Antes do Resultado Financeiro e dos Tributos,6002174.0000000000
+itr_cia_aberta_DRE_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,2026-01-01,2026-09-30,3.05,Resultado Antes do Resultado Financeiro e dos Tributos,5887920.0000000000
+itr_cia_aberta_DFC_MI_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,2025-01-01,2025-09-30,6.01.01.02,"Depreciação, Amortização e Exaustão",705858.0000000000
+itr_cia_aberta_DFC_MI_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,2026-01-01,2026-09-30,6.01.01.02,"Depreciação, Amortização e Exaustão",772679.0000000000
+itr_cia_aberta_BPA_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,,2025-12-31,1.01.01,Caixa e Equivalentes de Caixa,6296498.0000000000
+itr_cia_aberta_BPA_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,,2026-09-30,1.01.01,Caixa e Equivalentes de Caixa,5484016.0000000000
+itr_cia_aberta_BPA_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,,2025-12-31,1.01.02,Aplicações Financeiras,983367.0000000000
+itr_cia_aberta_BPA_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,,2026-09-30,1.01.02,Aplicações Financeiras,855431.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,,2025-12-31,2.01.04,Empréstimos e Financiamentos,3549314.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,,2026-09-30,2.01.04,Empréstimos e Financiamentos,1917755.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,,2025-12-31,2.01.05.02.07,Arrendamentos,221934.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,,2026-09-30,2.01.05.02.07,Arrendamentos,193101.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,,2025-12-31,2.02.01,Empréstimos e Financiamentos,1041508.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,,2026-09-30,2.02.01,Empréstimos e Financiamentos,1836690.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,,2025-12-31,2.02.02.02.05,Arrendamentos,625219.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,,2026-09-30,2.02.02.02.05,Arrendamentos,598991.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,PENÚLTIMO,,2025-12-31,2.03.09,Participação dos Acionistas Não Controladores,1136179.0000000000
+itr_cia_aberta_BPP_con_2026.csv,84.429.695/0001-11,2026-09-30,1,MIL,ÚLTIMO,,2026-09-30,2.03.09,Participação dos Acionistas Não Controladores,1410309.0000000000
